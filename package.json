@@ -1,0 +1,15 @@
+{
+  "name": "mostrequestedlive",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Most Requested Live Worldwide with Romeo \u2014 website + live request API",
+  "scripts": {
+    "db:schema": "psql \"$DATABASE_URL\" -f db/schema.sql",
+    "db:seed": "psql \"$DATABASE_URL\" -f db/seed.sql",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

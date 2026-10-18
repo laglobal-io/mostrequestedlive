@@ -1,110 +1,157 @@
-# Most Requested Live — website
+# Most Requested Live — website + live request platform
 
-Concept build for **Most Requested Live Worldwide with Romeo**, the syndicated Saturday-night request show.
+**Most Requested Live Worldwide with Romeo** — the syndicated Saturday-night request show.
 
-Static site, no build step, no dependencies. Every page is self-contained HTML/CSS/JS, so it deploys to Vercel as-is and will still run if you open `index.html` directly from disk.
+This is a working application, not a mockup. Listener requests are stored, the Top 20 is computed from real request volume, the on-air song is driven by a producer, and the archive fills itself from whatever has aired.
 
-> **Note:** all chart positions, requests, Lounge chat, listener counts and city data are **sample data** generated in-browser for demonstration. The interview episodes are real, pulled from the public YouTube channel and podcast feed. See [Going live](#going-live) for what has to be wired up before launch.
+**Stack:** static front end + Node serverless functions + Postgres. No framework, no build step.
 
 ---
 
-## Contents
+## What's actually live
 
-| File | What it is |
+| Feature | How it works |
 |---|---|
-| `index.html` | The whole listener-facing site — globe, live request feed, Top 20, rundown, The Lounge, The Zone, City Cup, interviews, gallery, archive |
-| `affiliates.html` | Affiliate/station sales area — clock, specs, imaging assets, station list, clearance form |
-| `404.html` | Dead air page |
-| `og-image.png` | Social share preview, 1200×630 |
-| `favicon.svg` | Icon |
-| `vercel.json` | Clean URLs, security headers, cache policy |
-| `docs/social-listening-api-spec.md` | Spec for the live social-listening request feed |
+| **Live request feed** | Every request is a row in `requests`. The globe pings the real city each one came from. |
+| **Top 20 chart** | Computed from request counts over a rolling 7 days, plus boosts, plus crew-pick weight. Movement arrows come from last week's snapshot. |
+| **On-air song** | The producer drives it from `/studio`. The site reads it and highlights the row. |
+| **"Ping me when this airs"** | Stored in `subscriptions`; fires when the producer advances onto that song, which also triggers the share card. |
+| **The Lounge** | Real chat, persisted. Song changes drop in as system messages. |
+| **What plays next** | Real head-to-head vote, one ballot per browser, changeable. The winner is queued into the rundown. |
+| **Song history** | Fills from rundown rows that have actually aired. |
+| **City charts & City Cup** | Grouped from the `city` field on requests. |
+| **Social intake** | `POST /api/ingest` accepts normalised posts and enforces the `#MostRequestedLive` + `@onairromeo` rule. |
+
+Still static (editorial content — wire to a CMS or feed when you're ready): the interviews list, the photo gallery, the hour-by-hour show outline, and the station finder.
 
 ---
 
 ## Deploy
 
-### 1. Push to GitHub
+### 1. Database
+
+Any Postgres works — Neon, Vercel Postgres, Supabase, RDS. Easiest path is the Vercel Marketplace (Storage → Create → Neon), which sets `DATABASE_URL` for you automatically.
+
+Then load the schema:
 
 ```bash
-git init
-git add .
-git commit -m "Most Requested Live — initial site"
+psql "$DATABASE_URL" -f db/schema.sql
+psql "$DATABASE_URL" -f db/seed.sql    # optional — gives you a chart on day one
+```
+
+> The seed inserts a 20-song catalogue, a starting rundown, and ~600 sample requests spread over six days so the chart isn't empty for the demo. **Skip it, or clear `requests` before launch**, if you want real numbers only.
+
+### 2. Push and import
+
+```bash
+git init && git add . && git commit -m "Most Requested Live"
 git branch -M main
 git remote add origin https://github.com/YOUR-ORG/mostrequestedlive.git
 git push -u origin main
 ```
 
-(Or just drag these files into a new repo via the GitHub web uploader — there's no build output to worry about.)
+[vercel.com/new](https://vercel.com/new) → import the repo → Framework Preset **Other** → Deploy. Functions in `/api` are detected automatically.
 
-### 2. Import to Vercel
+### 3. Environment variables
 
-1. [vercel.com/new](https://vercel.com/new) → **Import Git Repository** → pick the repo
-2. Framework Preset: **Other**
-3. Build Command: *leave empty*
-4. Output Directory: *leave empty* (repo root is served)
-5. **Deploy**
+Vercel → Settings → Environment Variables:
 
-You'll get a `*.vercel.app` URL in about twenty seconds. Every push to `main` redeploys; every pull request gets its own preview URL, which is a good way to share revisions without touching the live link.
+| Name | Value |
+|---|---|
+| `DATABASE_URL` | Your Postgres connection string |
+| `STUDIO_KEY` | A long random string. This is the producer's password. |
+| `INGEST_KEY` | A long random string, for your social-listening worker |
 
-### 3. Custom domain
+Redeploy after adding them. Then hit **`/api/health`** — it tells you exactly what's wrong if anything is.
 
-Vercel → Project → **Settings → Domains** → add `mostrequestedlive.com`.
+### 4. Domain
 
-Then at your registrar:
+Settings → Domains → add `mostrequestedlive.com`, then at your registrar:
 
 | Type | Name | Value |
 |---|---|---|
 | `A` | `@` | `76.76.21.21` |
 | `CNAME` | `www` | `cname.vercel-dns.com` |
 
-SSL provisions automatically. **Check whether the apex domain currently points at the iHeart page before you cut over** — you may want to launch on a subdomain like `beta.mostrequestedlive.com` first.
+Check where the apex currently points before cutting over — consider launching on `beta.` first.
 
 ---
 
-## Before you share the link
+## Running the show
 
-- [ ] Replace `og-image.png` — the current one uses a substitute typeface because the brand fonts weren't reachable from the build environment. Regenerate it in Archivo Black at 1200×630.
-- [ ] Search and replace `https://mostrequestedlive.com` in `sitemap.xml`, `robots.txt` and the `og:` tags if you deploy to a different hostname.
-- [ ] Swap the placeholder phone number `1-877-REQUEST` and the short code `24242`.
-- [ ] Decide whether `affiliates.html` should be public. It currently carries `noindex`, but it's reachable from the footer and main nav.
+The producer works from **`/studio`** (password is `STUDIO_KEY`, stored in their browser after the first sign-in). Everything live on the public site is downstream of this screen.
 
----
+- **Advance** — airs the current song, starts the next. This is the button that drives the night: it updates the on-air display, fires subscriber pings and share cards, posts a system line in the Lounge, and moves the aired song into the archive.
+- **Rundown** — add songs, play one out of order, drop one.
+- **Incoming requests** — queue a listener request with one click, reply to it (the reply shows on the site), or hide it.
+- **Vote** — open a what's-next round for N minutes; closing it queues the winner.
+- **Lounge** — post as crew; shows in magenta.
+- **Chart tools** — snapshot the week (do this right before the chart resets, so next week's arrows are real) and add crew picks with a weight.
 
-## Going live
-
-The site is a working front end. These are the back-end pieces it assumes exist:
-
-**1. A rundown tool.** The single biggest dependency, and it doesn't exist yet. The live playhead, the "notify me when this airs" bells, the share cards and the Lounge's song changes all fire from one source of truth: a producer in the booth marking what's playing. Everything live on this site is downstream of that.
-
-**2. Social listening ingestion.** See `docs/social-listening-api-spec.md`. Short version: YouTube and Instagram mention-webhooks are directly accessible, X is pay-per-use polling, and TikTok has no public commercial API — scope it to comments on your own videos or license a vendor.
-
-**3. Content feeds.** Interviews are currently a static array in `index.html`. In production, pull:
-- YouTube: `https://www.youtube.com/feeds/videos.xml?channel_id=UCeAP3SwnmOlB9d4E38Pz42A`
-- Podcast: the *Most Requested Live Interviews* RSS feed
-
-Parse `title`, `pubDate`, `itunes:duration` and `media:thumbnail`. The artist name is extractable from the title convention (`[Artist] chats with #MostRequestedLive!`) with a regex — the cards lead with artist name rather than full title, because nine identically-titled episodes in a grid are unreadable.
-
-**4. Request storage + chart computation.** Postgres for requests and the archive; Redis sorted sets for the rolling live windows.
-
-**5. Notifications.** Web push for the "coming up in two songs" heads-up, which is the actual tune-in trigger. The at-air notification is what delivers the share card.
-
-**6. Auth.** Fan cards, streaks, boost limits and the City Cup all need identity. Social login is the lowest-friction path and it doubles as a first-party data capture.
+**Run the snapshot weekly.** Without it every song reads as "New" forever. A Vercel Cron hitting `/api/studio` with `{"action":"snapshot"}` and the key header will do it unattended.
 
 ---
 
-## Suggested production stack
+## API
 
-Next.js on Vercel, a headless CMS (Sanity or Payload) for the rundown, gallery and editorial, Postgres for requests and song history, Redis for live counters, and SSE for the live feed — not WebSocket, since the traffic is one-directional and SSE reconnects natively and survives CDNs.
+| Endpoint | Method | What it does |
+|---|---|---|
+| `/api/health` | GET | Connection and table check. Start here when something's wrong. |
+| `/api/state` | GET | Everything the page polls: now playing, rundown, chart, requests, lounge, vote, cities, stats |
+| `/api/requests` | GET, POST | Read the wall / submit a request |
+| `/api/react` | POST | Like or boost |
+| `/api/subscribe` | POST | Ping me when this airs |
+| `/api/vote` | POST | Cast or change a vote |
+| `/api/lounge` | GET, POST | Chat |
+| `/api/archive` | GET | Search what has aired |
+| `/api/city` | GET | One city's top songs + 8-week trend |
+| `/api/ingest` | POST | Social listening intake (needs `INGEST_KEY`) |
+| `/api/studio` | POST | Producer actions (needs `STUDIO_KEY`) |
 
-Load-test at 50× weekday volume. Saturday 7p–12a ET is the only traffic pattern that matters, and it's spiky.
+The front end polls `/api/state` every 4 seconds and backs off to 8 on failure. For a radio show that's the right trade: cheap, bulletproof, and no long-lived connections to babysit on serverless.
+
+### Feeding the social feed
+
+Your worker posts normalised items:
+
+```bash
+curl -X POST https://mostrequestedlive.com/api/ingest \
+  -H "content-type: application/json" \
+  -H "x-mrl-key: $INGEST_KEY" \
+  -d '{"posts":[{"text":"Golden by HUNTR/X #MostRequestedLive @onairromeo",
+                 "author":"fan","city":"Manila, PH","source":"tiktok"}]}'
+```
+
+Posts missing the hashtag or the mention are rejected and counted by reason. See `docs/social-listening-api-spec.md` for which platforms you can read directly — short version: YouTube and Instagram mentions yes, X is pay-per-use polling, TikTok has no public commercial API.
 
 ---
 
-## Sponsor inventory
+## Tests
 
-The demo strip at the top has a **Show sponsor inventory** toggle that annotates the sellable units in place: Top 20 presented-by, hour sponsorships, Lounge presenting sponsor, branded ballot, interview presenting sponsor, the share-card co-brand, and the first-party data capture at the composer. It's a presentation aid — remove the `.demobar` block and the `.inv` / `data-inv` attributes before public launch.
+`test/run.mjs` exercises all eleven endpoints against a real Postgres — 62 assertions covering the request-to-air loop, vote integrity, the tag rule, auth rejection, and input validation.
+
+```bash
+DATABASE_URL=... STUDIO_KEY=... INGEST_KEY=... node test/run.mjs
+```
+
+It needs the real `pg` package installed (`npm install`) and a database with `db/schema.sql` loaded.
 
 ---
 
-*Concept prototype. Sample data throughout except where noted.*
+## Before launch
+
+- [ ] Clear the seeded sample requests if you want genuine numbers from day one
+- [ ] Set a long `STUDIO_KEY` and don't share it outside the booth
+- [ ] Schedule the weekly chart snapshot
+- [ ] Replace `og-image.png` — the current one uses a substitute typeface; regenerate in Archivo Black at 1200×630
+- [ ] Swap the placeholder phone number (`1-877-REQUEST`) and short code (`24242`)
+- [ ] Decide on moderation: requests currently post straight to the wall. To hold them for review, change the `status` default in `api/requests.js` from `'approved'` to `'pending'` and approve from the studio.
+- [ ] Remove the green demo strip and the `data-inv` sponsor markers in `index.html` before a public launch — they're presentation aids
+- [ ] Load-test at 50× weekday traffic. Saturday 7p–12a ET is the only pattern that matters and it's spiky.
+
+## Known limits
+
+- **Polling, not push.** Four-second refresh. Fine for radio; if you want sub-second, move to a hosted realtime service rather than fighting serverless connection limits.
+- **No accounts.** Fan cards, streaks and vote identity key off a browser-local ID, so they don't follow a person across devices. Social login is the natural next step and doubles as first-party data capture.
+- **Boost and like counts** are per-browser honest, not fraud-proof. Add auth before you publicise that the chart is fan-driven.
+- **Notifications** are in-page plus the browser Notification API while the tab is open. Real web push (service worker + VAPID) is the follow-on, and it's what makes the "coming up in two songs" heads-up possible — which is the actual tune-in trigger.
