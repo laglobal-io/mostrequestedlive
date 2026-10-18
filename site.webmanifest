@@ -1,0 +1,10 @@
+{
+  "name": "Most Requested Live",
+  "short_name": "MRL",
+  "description": "The most interactive show on the radio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#100320",
+  "theme_color": "#100320",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

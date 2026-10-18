@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mostrequestedlive.com/sitemap.xml

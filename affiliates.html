@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Affiliate Area — Most Requested Live</title>
+<meta name="description" content="Affiliate area for Most Requested Live Worldwide with Romeo — clock, specs, imaging assets, station list and clearance requests.">
+<meta name="theme-color" content="#100320">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Big+Shoulders+Display:wght@600;800&family=Space+Grotesk:wght@400;500;700&family=Pixelify+Sans:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#100320; --plum:#1E0C38; --panel:#31175A; --chrome:#3A2062;
+  --magenta:#FF2D9E; --violet:#8B3DFF; --cyan:#22E0E0; --onair:#FF2A1F;
+  --sparkle:#FFF6FB; --dim:#B49AD4; --faint:#8A72B0; --line:rgba(255,246,251,.14);
+  --wordmark:'Archivo Black',Impact,sans-serif;
+  --display:'Big Shoulders Display',sans-serif;
+  --body:'Space Grotesk',system-ui,sans-serif;
+  --pixel:'Pixelify Sans',monospace;
+  --data:'JetBrains Mono',ui-monospace,monospace;
+  --gut:26px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--void);color:var(--sparkle);font-family:var(--body);font-size:15px;line-height:1.55;overflow-x:hidden}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.win{background:linear-gradient(180deg,rgba(40,17,73,.72),rgba(30,12,56,.72));border:1px solid rgba(255,246,251,.18);border-radius:6px;overflow:hidden;backdrop-filter:blur(12px);box-shadow:0 14px 40px rgba(0,0,0,.42)}
+.tb{background:linear-gradient(90deg,rgba(255,45,158,.9),rgba(139,61,255,.75));padding:0 10px;height:30px;display:flex;align-items:center;gap:10px}
+.tb b{font-family:var(--pixel);font-size:13px;color:#fff;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tb .sysbtns{display:flex;gap:3px}
+.tb .sysbtns i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.35);font-style:normal;font-size:0}
+.wb{padding:16px}
+.b98{font-family:var(--body);font-weight:700;font-size:13px;background:rgba(255,255,255,.06);color:var(--sparkle);border:1px solid rgba(255,246,251,.18);border-radius:4px;padding:9px 15px;cursor:pointer;display:inline-block;line-height:1.1;transition:.14s}
+.b98:hover{background:var(--panel);text-decoration:none;color:#fff}
+.b98:hover{border-color:var(--cyan)}
+.b98.pink{background:var(--magenta)}
+.b98.pink:hover{background:#FF52AF}
+.b98.big{font-size:16px;padding:12px 22px}
+.pixel{font-family:var(--pixel);font-size:12px;color:var(--dim)}
+h2.hd{font-family:var(--display);font-weight:800;font-size:clamp(32px,4.6vw,48px);text-transform:uppercase;line-height:.9;margin:0}
+.sec{max-width:1180px;margin:0 auto;padding:0 var(--gut) 52px}
+.sec-top{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.sec-top .note{font-family:var(--data);font-size:11px;color:var(--faint);margin-left:auto}
+
+.menubar{position:sticky;top:0;z-index:70;background:var(--chrome);border-bottom:2px solid rgba(0,0,0,.6)}
+.menu-in{max-width:1180px;margin:0 auto;padding:5px var(--gut);display:flex;align-items:center;gap:2px}
+.menu-in a{font-family:var(--pixel);font-size:13px;color:var(--sparkle);padding:6px 11px}
+.menu-in a:hover{background:var(--magenta);color:#fff;text-decoration:none}
+.menu-in .spacer{flex:1}
+
+.head{position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 80% at 30% 30%,#3A0F5E,var(--void) 74%);border-bottom:2px solid rgba(0,0,0,.5)}
+.head-in{max-width:1180px;margin:0 auto;padding:52px var(--gut) 46px;display:grid;grid-template-columns:1fr 300px;gap:36px;align-items:center}
+.badge{font-family:var(--pixel);font-size:12px;background:var(--onair);color:#fff;padding:4px 10px;display:inline-block;margin-bottom:16px}
+.head h1{font-family:var(--display);font-weight:800;font-size:clamp(40px,6.6vw,74px);text-transform:uppercase;line-height:.88;margin:0 0 16px}
+.head p{max-width:50ch;color:var(--dim);font-size:16px;margin:0 0 24px}
+.headcta{display:flex;gap:10px;flex-wrap:wrap}
+.lockmini{aspect-ratio:1;border:4px solid var(--sparkle);border-radius:50%;display:grid;place-items:center;box-shadow:0 0 44px rgba(255,45,158,.35)}
+.lockmini div{font-family:var(--wordmark);text-transform:uppercase;transform:skewX(-8deg);line-height:.85;text-align:center;font-size:30px}
+.lockmini span{display:block;font-size:.26em;letter-spacing:.1em;margin-top:8px;background:linear-gradient(90deg,var(--magenta),var(--violet));padding:4px 7px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:52px;max-width:1180px;margin-left:auto;margin-right:auto;padding:0 var(--gut)}
+.stat{background:rgba(40,17,73,.45);border:1px solid rgba(255,246,251,.10);border-radius:6px;padding:16px}
+.stat b{font-family:var(--display);font-weight:800;font-size:38px;display:block;line-height:1;color:var(--magenta)}
+.stat span{font-size:12.5px;color:var(--dim)}
+
+.cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.cols2{display:grid;grid-template-columns:1fr 380px;gap:22px;align-items:start}
+.item{background:rgba(40,17,73,.45);border:1px solid rgba(255,246,251,.10);border-radius:6px;padding:15px;display:flex;flex-direction:column;gap:7px}
+.item .g{font-size:24px}
+.item b{font-size:15px}
+.item p{margin:0;font-size:13px;color:var(--dim)}
+.item .b98{margin-top:auto;align-self:flex-start}
+
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{font-family:var(--pixel);font-size:12px;color:var(--dim);text-align:left;padding:8px 12px;background:var(--chrome);border-bottom:2px solid rgba(0,0,0,.5)}
+td{padding:9px 12px;border-bottom:1px solid var(--line)}
+tbody tr:hover{background:var(--panel)}
+td.data{font-family:var(--data);font-size:12px;color:var(--faint);white-space:nowrap}
+.search{display:flex;gap:8px;margin-bottom:12px}
+.field{background:rgba(8,2,16,.55);border:1px solid rgba(255,246,251,.18);border-radius:4px;color:var(--sparkle);font-family:var(--body);font-size:14px;padding:10px 12px;width:100%;margin-bottom:8px}
+.field:focus{outline:none;border-color:var(--cyan)}
+.search .field{margin-bottom:0}
+
+.clock-row{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:11px 0;border-bottom:1px dotted var(--line)}
+.clock-row:last-child{border:0}
+.clock-row .t{font-family:var(--data);font-size:12.5px;color:var(--cyan)}
+.clock-row b{font-size:14px;display:block}
+.clock-row span{font-size:12.5px;color:var(--dim)}
+
+.ok{background:rgba(34,224,224,.12);border:2px solid;border-color:rgba(34,224,224,.6) rgba(0,0,0,.5) rgba(0,0,0,.5) rgba(34,224,224,.6);padding:13px;font-size:13.5px;margin-top:10px}
+.ok b{color:var(--cyan)}
+
+footer{border-top:2px solid rgba(0,0,0,.6);background:var(--chrome);margin-top:20px}
+.legal{padding:18px var(--gut);text-align:center;font-family:var(--pixel);font-size:11px;color:var(--faint)}
+
+@media (max-width:1000px){
+  .head-in,.cols2{grid-template-columns:1fr}
+  .lockmini{max-width:230px}
+  .stats{grid-template-columns:1fr 1fr}
+  .cols3{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="menubar">
+  <div class="menu-in">
+    <a href="index.html">← Back to the show</a>
+    <a href="#why">Why carry it</a>
+    <a href="#clock">Clock &amp; specs</a>
+    <a href="#assets">Assets</a>
+    <a href="#stations">Station list</a>
+    <span class="spacer"></span>
+    <a href="#contact" class="b98 pink">Request clearance</a>
+  </div>
+</div>
+
+<header class="head">
+  <div class="head-in">
+    <div>
+      <span class="badge">Affiliate area</span>
+      <h1>Five hours your<br>audience programs<br>themselves.</h1>
+      <p>Most Requested Live Worldwide with Romeo is a five-hour Saturday night request show built entirely on listener interaction — calls, texts, social, and a Top 20 the audience moves. Barter, satellite-delivered, fully localizable.</p>
+      <div class="headcta">
+        <a class="b98 pink big" href="#contact">Request clearance</a>
+        <a class="b98 big" href="#assets">Download the kit</a>
+      </div>
+    </div>
+    <div class="lockmini"><div>Most<br>Requested<br>Live<span>Worldwide with Romeo</span></div></div>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><b>140+</b><span>Affiliate stations</span></div>
+  <div class="stat"><b>41</b><span>Countries reached</span></div>
+  <div class="stat"><b>5 hrs</b><span>Saturdays 7p–12a ET</span></div>
+  <div class="stat"><b>96K</b><span>Weekly listener requests</span></div>
+</div>
+
+<main>
+
+<section class="sec" id="why">
+  <div class="sec-top"><h2 class="hd">Why carry it</h2><span class="note">Sample figures — swap in real research</span></div>
+  <div class="cols3">
+    <div class="item"><span class="g">📻</span><b>Weekend daypart, solved</b><p>Five hours of live, current-based CHR programming on the night most stations run voicetracked or syndicated filler.</p></div>
+    <div class="item"><span class="g">🎤</span><b>Talent you don't have to book</b><p>Weekly in-studio artist interviews your market gets at no additional cost, cleared for local promo use.</p></div>
+    <div class="item"><span class="g">📈</span><b>The audience does the research</b><p>The Top 20 is compiled from live listener request volume — a real-time read on what's testing in your market and everyone else's.</p></div>
+    <div class="item"><span class="g">🔁</span><b>Local windows built in</b><p>Protected local breaks each hour plus liner beds for your calls, so the show sounds like it originates on your station.</p></div>
+    <div class="item"><span class="g">📱</span><b>Social carry-through</b><p>Your call letters appear in the request wall and weekly video when your listeners participate. Cross-promotion without extra production.</p></div>
+    <div class="item"><span class="g">💸</span><b>Barter</b><p>Standard barter split, no cash license fee. Inventory and avails detailed in the affiliate agreement.</p></div>
+  </div>
+</section>
+
+<section class="sec" id="clock">
+  <div class="sec-top"><h2 class="hd">Clock &amp; specs</h2><span class="note">Per hour · local breaks protected</span></div>
+  <div class="cols2">
+    <div class="win">
+      <div class="tb"><b>hour_clock.txt</b><span class="sysbtns"><i>_</i><i>□</i><i>✕</i></span></div>
+      <div class="wb">
+        <div class="clock-row"><span class="t">:00–:08</span><div><b>Open + first request block</b><span>Cold open, hour theme, three requests</span></div></div>
+        <div class="clock-row"><span class="t">:08–:10</span><div><b>Local break 1</b><span>2:00 protected — your spots</span></div></div>
+        <div class="clock-row"><span class="t">:10–:26</span><div><b>Request block / interview segment</b><span>Artist chat lands here in guest hours</span></div></div>
+        <div class="clock-row"><span class="t">:26–:29</span><div><b>Local break 2</b><span>3:00 protected</span></div></div>
+        <div class="clock-row"><span class="t">:29–:44</span><div><b>The TwittaMix</b><span>Listener-programmed run, back to back</span></div></div>
+        <div class="clock-row"><span class="t">:44–:47</span><div><b>Local break 3</b><span>3:00 protected</span></div></div>
+        <div class="clock-row"><span class="t">:47–:58</span><div><b>Chart position + Best Of The Web</b><span>Countdown reveal, tease next hour</span></div></div>
+        <div class="clock-row"><span class="t">:58–:00</span><div><b>Network break</b><span>2:00 barter</span></div></div>
+      </div>
+    </div>
+    <div class="win">
+      <div class="tb"><b>Technical</b><span class="sysbtns"><i>_</i><i>✕</i></span></div>
+      <div class="wb">
+        <div class="clock-row"><span class="t">Delivery</span><div><b>Satellite + FTP backup</b><span>Live feed and delayed replay files</span></div></div>
+        <div class="clock-row"><span class="t">Air window</span><div><b>Sat 7p–12a ET</b><span>Delayed carriage permitted through Sunday</span></div></div>
+        <div class="clock-row"><span class="t">Format</span><div><b>CHR / Top 40</b><span>Hot AC and Rhythmic variants available</span></div></div>
+        <div class="clock-row"><span class="t">Cue tones</span><div><b>Standard DTMF</b><span>Full sheet in the affiliate kit</span></div></div>
+        <div class="clock-row"><span class="t">Support</span><div><b>Affiliate line, 24/7</b><span>1-877-000-0000</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="assets">
+  <div class="sec-top"><h2 class="hd">Assets &amp; imaging</h2><span class="note">Affiliate login required for full library</span></div>
+  <div class="cols3">
+    <div class="item"><span class="g">🎧</span><b>Imaging &amp; liners</b><p>Custom drops with your call letters, delivered in 48 hours. WAV + MP3.</p><a class="b98" href="#contact">Order drops</a></div>
+    <div class="item"><span class="g">🖼</span><b>Logo pack</b><p>Full lockup, stacked, horizontal, one-color, and social crops. SVG, EPS, PNG.</p><a class="b98" href="#contact">Download</a></div>
+    <div class="item"><span class="g">📣</span><b>Promo scripts</b><p>:10, :15, and :30 promos for the show and the weekly guest.</p><a class="b98" href="#contact">Download</a></div>
+    <div class="item"><span class="g">📅</span><b>Guest advance</b><p>Confirmed artists three weeks out, so you can promote ahead.</p><a class="b98" href="#contact">View calendar</a></div>
+    <div class="item"><span class="g">📊</span><b>Weekly chart feed</b><p>Top 20 as CSV or JSON every Sunday for your site and app.</p><a class="b98" href="#contact">Get the feed</a></div>
+    <div class="item"><span class="g">📄</span><b>Affidavits</b><p>Submit monthly airplay affidavits and pull past filings.</p><a class="b98" href="#contact">Affiliate login</a></div>
+  </div>
+</section>
+
+<section class="sec" id="stations">
+  <div class="sec-top"><h2 class="hd">Who's carrying it</h2><span class="note">Partial list · updated weekly</span></div>
+  <div class="win">
+    <div class="tb"><b>affiliates.db</b><span class="sysbtns"><i>_</i><i>□</i><i>✕</i></span></div>
+    <div class="wb">
+      <div class="search">
+        <input class="field" id="q" placeholder="Search by station, market, or country…" aria-label="Search affiliates">
+        <button class="b98" id="clearq">Clear</button>
+      </div>
+      <table>
+        <thead><tr><th>Station</th><th>Market</th><th>Format</th><th>Airs</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="contact">
+  <div class="sec-top"><h2 class="hd">Request clearance</h2><span class="note">We reply within two business days</span></div>
+  <div class="cols2">
+    <div class="win">
+      <div class="tb"><b>clearance_request.exe</b><span class="sysbtns"><i>_</i><i>□</i><i>✕</i></span></div>
+      <div class="wb">
+        <form id="cform">
+          <input class="field" id="c1" placeholder="Station / call letters" required>
+          <input class="field" id="c2" placeholder="Market" required>
+          <input class="field" id="c3" placeholder="Your name and title" required>
+          <input class="field" id="c4" type="email" placeholder="Work email" required>
+          <button class="b98 pink big" type="submit">Send request</button>
+        </form>
+      </div>
+    </div>
+    <div class="win">
+      <div class="tb"><b>Direct contacts</b><span class="sysbtns"><i>_</i><i>✕</i></span></div>
+      <div class="wb">
+        <div class="clock-row"><span class="t">Affiliate sales</span><div><b>affiliates@mostrequestedlive.com</b><span>Clearances, agreements, markets</span></div></div>
+        <div class="clock-row"><span class="t">Programming</span><div><b>programming@mostrequestedlive.com</b><span>Clock questions, imaging, guest advance</span></div></div>
+        <div class="clock-row"><span class="t">Engineering</span><div><b>ops@mostrequestedlive.com</b><span>Feed, cue tones, delivery issues</span></div></div>
+        <div class="clock-row"><span class="t">Press</span><div><b>press@mostrequestedlive.com</b><span>Interviews, artist bookings, media</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="legal">Concept prototype · sample data · © Most Requested Live</div></footer>
+
+<script>
+const $=i=>document.getElementById(i);
+const A=[
+['Z100','New York, NY','CHR','Sat 7p'],['KIIS FM','Los Angeles, CA','CHR','Sat 7p'],['B96','Chicago, IL','Rhythmic','Sat 7p'],
+['Q102','Philadelphia, PA','CHR','Sat 7p'],['Mix 104.1','Boston, MA','Hot AC','Sat 8p'],['Hot 99.5','Washington, DC','CHR','Sat 7p'],
+['Power 96.1','Atlanta, GA','CHR','Sat 7p'],['102.5 WFMF','Baton Rouge, LA','CHR','Sat 6p'],['Hits 96.1','Syracuse, NY','CHR','Sat 7p'],
+['Z107.7','Joshua Tree, CA','CHR','Sat 4p'],['Kissin 92.5','Joplin, MO','CHR','Sat 6p'],['Live 99.3','Sudbury, ON','CHR','Sat 7p'],
+['Virgin Radio','Toronto, ON','CHR','Sat 7p'],['Capital FM','London, UK','CHR','Sun 12a'],['Nova 96.9','Sydney, AU','CHR','Sun 11a'],
+['Hitz FM','Manila, PH','CHR','Sun 8a'],['Radio Energy','Berlin, DE','CHR','Sun 1a']
+];
+function draw(){
+  const q=$('q').value.toLowerCase();
+  $('rows').innerHTML=A.filter(r=>r.join(' ').toLowerCase().includes(q))
+    .map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td class="data">${r[2]}</td><td class="data">${r[3]}</td></tr>`).join('')
+    ||'<tr><td colspan="4" style="color:var(--dim);padding:20px 12px">No stations match. Try a market or country.</td></tr>';
+}
+draw();
+$('q').addEventListener('input',draw);
+$('clearq').addEventListener('click',()=>{$('q').value='';draw();});
+$('cform').addEventListener('submit',e=>{
+  e.preventDefault();
+  const st=$('c1').value.trim();
+  e.target.style.display='none';
+  const ok=document.createElement('div');ok.className='ok';
+  ok.innerHTML='<b>Request received.</b> Affiliate sales will reach out about clearing the show on '+st+' within two business days.';
+  e.target.parentElement.appendChild(ok);
+});
+</script>
+</body>
+</html>
